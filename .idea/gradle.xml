@@ -5,12 +5,21 @@
     <option name="linkedExternalProjectsSettings">
       <GradleProjectSettings>
         <option name="distributionType" value="DEFAULT_WRAPPED" />
-        <option name="externalProjectPath" value="$PROJECT_DIR$/MediScreen" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$/MediScreenPatients" />
         <option name="gradleHome" value="$PROJECT_DIR$/../gradle/gradle-7.6" />
-        <option name="gradleJvm" value="16" />
         <option name="modules">
           <set>
-            <option value="$PROJECT_DIR$/MediScreen" />
+            <option value="$PROJECT_DIR$/MediScreenPatients" />
+          </set>
+        </option>
+      </GradleProjectSettings>
+      <GradleProjectSettings>
+        <option name="distributionType" value="DEFAULT_WRAPPED" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$/MediscreenHistory/History/History" />
+        <option name="gradleHome" value="$PROJECT_DIR$/../gradle/gradle-7.6" />
+        <option name="modules">
+          <set>
+            <option value="$PROJECT_DIR$/MediscreenHistory/History/History" />
           </set>
         </option>
       </GradleProjectSettings>
