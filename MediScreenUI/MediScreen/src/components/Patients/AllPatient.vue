@@ -31,13 +31,14 @@
       </thead>
     </table>
   </div>
-    <table>
+    <table class="tablebody">
       <tbody v-for="(patient, index) in patients" :key="index">
         <tr>
           <td>{{ patient.idPatient }}</td>
           <td>{{ patient.name}}</td>
           <td>{{ patient.firstName }}</td>
-          <td><router-link :to="{ name: 'update', params: { id: patient.idPatient }}"><button class="btn btn-primary">Update</button></router-link></td>
+          <td><router-link :to="{ name: 'update', params: { id: patient.idPatient }}"><button class="update">Update</button></router-link></td>
+          <td><router-link :to="{ name: 'history', params: { id: patient.idPatient }}"><button class="history">History</button></router-link></td>
         </tr>
       </tbody>
     </table>
@@ -81,6 +82,10 @@ export default {
 </script>
 <style>
 
+    .tablebody{
+      margin-left: 0em;
+    }
+
     .infos p {
       font-weight: bold;
       font-size: xx-large;
@@ -123,5 +128,29 @@ export default {
     margin-top: 0.5em;
     height: 2.3em;
     width: 300px;
+  }
+  .update{
+    position: absolute;
+    font-weight: bold;
+    font-size: x-large;
+    background-color: rgb(50, 102, 151);
+    color: #fff;
+    border: 1px rgb(50, 102, 151);;
+    border-radius: 20px / 20px;
+    margin-left: 1em;
+    margin-top: -0.5em;
+    width: 239px;
+  }
+  .history{
+    position: absolute;
+    margin-left: 11em;
+    font-weight: bold;
+    font-size: x-large;
+    background-color: rgb(50, 102, 151);
+    color: #fff;
+    border: 1px rgb(50, 102, 151);;
+    border-radius: 20px / 20px;
+    margin-top: -0.5em;
+    width: 239px;
   }
     </style>

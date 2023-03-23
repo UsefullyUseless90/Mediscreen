@@ -5,6 +5,8 @@ import com.mediscreen.History.Repositories.HistoryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -28,8 +30,9 @@ public class HistoryServiceImpl implements HistoryService{
      * @return
      */
 
-    public History getHistoryById(int idPatient){
-        return historyRepository.findByPatientId(idPatient);
+    public List<History> getHistoriesById(int idPatient){
+        List<History> histories = historyRepository.findByPatientId(idPatient);
+        return histories;
     }
 
     /**
@@ -54,6 +57,7 @@ public class HistoryServiceImpl implements HistoryService{
         historyRepository.findById(history.getPatientId());
         updatedHistory.setPatientFirstName(history.getPatientFirstName());
         updatedHistory.setPatientName(history.getPatientName());
+        updatedHistory.setDateOfInterview(history.getDateOfInterview());
         updatedHistory.setCommentary(history.getCommentary());
         historyRepository.save(updatedHistory);
         return updatedHistory;

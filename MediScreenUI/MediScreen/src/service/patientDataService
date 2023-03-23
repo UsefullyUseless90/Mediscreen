@@ -13,7 +13,7 @@ class PatientDataService {
   }
 
   create(data) {
-    return axios.post("http://localhost:8080/patient/newPatient", data);
+    return axios.post("http://localhost:8080/patient/add", data);
   }
 
   update(data){

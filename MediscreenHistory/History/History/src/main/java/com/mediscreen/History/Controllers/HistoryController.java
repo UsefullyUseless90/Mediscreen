@@ -10,11 +10,12 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Optional;
 
 @CrossOrigin(origins = "http://localhost:5173/", maxAge = 3600)
 @RestController
-@RequestMapping("/history")
+@RequestMapping("/patHistory")
 public class HistoryController {
 
     @Autowired
@@ -40,11 +41,11 @@ public class HistoryController {
      * @param id
      * @return
      */
-    @RequestMapping(value = "/historyId", params = "id")
-    public ResponseEntity<?> getHistoryById(@RequestParam int id){
-        History history= historyService.getHistoryById(id);
-        log.info("The follow history is for the id received: " + history);
-        return ResponseEntity.status(HttpStatus.OK).body(history);
+    @RequestMapping(value = "/historiesId", params = "id")
+    public ResponseEntity<?> getHistoriesById(@RequestParam int id){
+        List<History> histories= historyService.getHistoriesById(id);
+        log.info("The follow history is for the id received: " + histories);
+        return ResponseEntity.status(HttpStatus.OK).body(histories);
     }
 
     /**
