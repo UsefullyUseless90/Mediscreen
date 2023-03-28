@@ -4,16 +4,19 @@ import com.mediscreen.History.Models.History;
 import com.mediscreen.History.Repositories.HistoryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 @Service
 public class HistoryServiceImpl implements HistoryService{
 
     @Autowired
     HistoryRepository historyRepository;
+
+    private static final SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
     /**
      *
@@ -37,12 +40,11 @@ public class HistoryServiceImpl implements HistoryService{
 
     /**
      *
-     * @param history
+     * @param historyId
      * @return
      */
-
-    public History addNewHistory(History history){
-        historyRepository.save(history);
+    public History getHistoryById(int historyId){
+        History history = historyRepository.findByHistoryId(historyId);
         return history;
     }
 
@@ -52,14 +54,27 @@ public class HistoryServiceImpl implements HistoryService{
      * @return
      */
 
+    public History addNewHistory(History history){
+        history.setHistoryId(new Random().nextInt());
+        Date date = new Date();
+        history.setDateOfInterview(sdf.format(date));
+        historyRepository.save(history);
+        return history;
+    }
+
+    /**
+     *
+     * @param history
+     * @return
+     */
+    @Transactional
     public History updateExistingHistory(History history){
-        History updatedHistory = new History();
-        historyRepository.findById(history.getPatientId());
-        updatedHistory.setPatientFirstName(history.getPatientFirstName());
-        updatedHistory.setPatientName(history.getPatientName());
-        updatedHistory.setDateOfInterview(history.getDateOfInterview());
-        updatedHistory.setCommentary(history.getCommentary());
-        historyRepository.save(updatedHistory);
-        return updatedHistory;
+        Date date = new Date();
+        History updated = historyRepository.findByHistoryId(history.getHistoryId());
+        updated.setDateOfInterview(sdf.format(date));
+        updated.setCommentary(history.getCommentary());
+        historyRepository.deleteHistoryByHistoryId(history.getHistoryId());
+        historyRepository.save(updated);
+        return updated;
     }
 }

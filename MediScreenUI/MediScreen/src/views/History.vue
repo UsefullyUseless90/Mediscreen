@@ -46,15 +46,15 @@
           <tr>
             <td>{{ history.dateOfInterview }}</td>
             <td>{{ history.commentary }}</td>
-            <td><router-link :to="{ name: 'updateHistory', params: { id: patientDAO.idPatient }}"><button class="ub" @click="update()">Update history</button></router-link></td>
+            <td>{{ history.historyId }}</td>
+            <td><router-link :to="{ name: 'updateHistory', params: { id: history.historyId }}"><button class="ub" @click="update()">Update history</button></router-link></td>
           </tr>
         </tbody>
   </table>
   <div class="add">
       <h2>Commentary for today's interview</h2>
-      <input type="text" id="date" name="date" v-model="history.dateOfInterview" />
-      <input class="inter" type="text" id="commentary" name="commentary" v-model="history.commentary"/>
-      <button class="bc" @click="create()">Add commentary</button>
+          <input class="inter" type="text" id="commentary" name="commentary" v-model="historyToSend.commentary"/>
+          <button class="bc" @click="create()">Add commentary</button>
   </div>  
 </div>
       
@@ -77,12 +77,11 @@ import patientDataService from "../service/patientDataService";
           postalAddress: "",
           phoneNumber: ""
         },
-        history:{
-          idPatient: this.$route.params.id,
-          name: "", 
-          firstName: "",
+        historyToSend:{
+          historyId: 0,
+          patientId: 0,
+          dateOfInterview:"",
           commentary:"",
-          dateOfInterview:""
         },
         histories:[]
       }
@@ -97,8 +96,11 @@ import patientDataService from "../service/patientDataService";
     },
     methods: {
     create() {
-        historyDataService.create(this.history).then((response) => {console.log(response.status);
-        window.location.reload();
+        this.historyToSend.patientId = this.$data.patientDAO.idPatient;
+        historyDataService.create(this.$data.historyToSend).then((response) => {
+          this.historyToSend = response.data;
+          this.submitted = true;
+          window.location.reload();
       })
       .catch((error) => console.error({error})); 
       },

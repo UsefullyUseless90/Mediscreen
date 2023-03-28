@@ -4,7 +4,6 @@
         <h1>Patient's informations</h1>
       </div>
       <div class="card-body"></div>
-
       <form action="app.js" method="put">
         <div class="form-group">
           <label for="LastName"> Last name </label>

@@ -1,29 +1,20 @@
 <template>
   <div class="historyPage">
-      <div class="card card-primary">
+      <div class="updateHistory">
         <h1>Patient's informations</h1>
+        <td>{{ history.historyId }}</td>
+        <td>{{ history.patientId }}</td>
       </div>
       <div class="card-body"></div>
 
       <form action="app.js" method="put">
-        <div class="form-group">
-          <label for="LastName"> Last name </label>
-          <input type="text" class="form-control" id="name" v-model="history.name"/>
-        </div>
-        <div class="form-group">
-          <label for="FirstName"> First name </label>
-          <input type="text" class="form-control" id="firstName" v-model="history.firstName" />
-        </div>
-        <div class="form-group">
-          <label for="PostalAddress" > Date of Interview </label>
-          <input type="text" class="form-control" id="dateOfInterview" v-model="history.dateOfInterview"/>
-        </div>
+        
         <div class="form-group">
           <label for="PhoneNumber" > Commentary </label>
           <input type="text" class="form-control" id="commentary" v-model="history.commentary"/>
         </div>
         <div class="containsB">
-          <router-link to="/patientsHistory/update/:id" class="nav-link"><button class="ubtn" @click="update()">Update Informations</button></router-link>
+        <button class="ubtn" @click="update()">Update Informations</button>
         </div>
       </form>
   </div>
@@ -31,28 +22,38 @@
 </template>
 <script>
 import historyDataService from "../service/historyDataService";
+
+
 export default {
   name: "info-patient",
   data() {
     return {
+      patientDAO:{
+          idPatient: 0,
+          name: "", 
+          firstName: "",
+          birthDate: "",
+          gender: "",
+          postalAddress: "",
+          phoneNumber: ""
+        },
       history:{
-        name: "", 
-        firstName: "",
-        commentary:"",
-        dateOfInterview:""
+        patientId:0,
+        historyId:0,
+        commentary:""
       },
     }
   },
   mounted(){
-    console.log(this.$route.params.id);
-    historyDataService.update(this.$route.params.id).then((response) => {console.log(response.status);
-    })
+      console.log(this.$route.params.id);
+        historyDataService.getHistoryId(this.$route.params.id).then((response) => {this.history = {...response.data};
+      })
   },
   methods: {
   update() {
       historyDataService.update(this.history).then((response) => {console.log(response.status);
       })
-      .catch((error) => console.error({error})); 
+      this.$router.push({name:'history', params: {id: patientDAO.idPatient}})
       },
     }
 }

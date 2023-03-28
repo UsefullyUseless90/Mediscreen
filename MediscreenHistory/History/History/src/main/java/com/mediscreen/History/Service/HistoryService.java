@@ -9,6 +9,7 @@ public interface HistoryService {
 
     Iterable<History>getAllHistories();
     List<History> getHistoriesById(int idPatient);
+    History getHistoryById(int historyId);
     History addNewHistory(History history);
     History updateExistingHistory(History history);
 }

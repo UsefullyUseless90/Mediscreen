@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Locale;
 import java.util.Optional;
 import java.util.Random;
 
@@ -55,6 +56,7 @@ public class PatientServiceImpl implements IPatientService {
     @Transactional
     public PatientDAO savePatient(PatientDAO patientDAO){
         patientDAO.setIdPatient(new Random().nextInt());
+        setGenderParamFromLetter(patientDAO);
         patientRepository.save(patientDAO);
         return patientDAO;
     }
@@ -71,11 +73,21 @@ public class PatientServiceImpl implements IPatientService {
         patientUpdate.setName(patientDAO.getName());
         patientUpdate.setName(patientDAO.getName());
         patientUpdate.setBirthDate(patientDAO.getBirthDate());
-        patientUpdate.setGender(patientDAO.getGender());
+        setGenderParamFromLetter(patientDAO);
         patientUpdate.setPostalAddress(patientDAO.getPostalAddress());
         patientUpdate.setPhoneNumber(patientDAO.getPhoneNumber());
         patientRepository.save(patientUpdate);
         return patientUpdate;
+    }
+
+    public void setGenderParamFromLetter(PatientDAO patientDAO){
+        if (patientDAO.getGender().equals("M") || patientDAO.getGender().equals("Men"))  {
+            patientDAO.setGender("male");
+        } else if (patientDAO.getGender().equals("F") || patientDAO.getGender().equals("Female")) {
+            patientDAO.setGender("female");
+        } else {
+            throw new IllegalArgumentException("Please answer a valid gender");
+        }
     }
 
 

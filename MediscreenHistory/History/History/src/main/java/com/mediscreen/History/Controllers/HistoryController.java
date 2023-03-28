@@ -50,6 +50,18 @@ public class HistoryController {
 
     /**
      *
+     * @param id
+     * @return
+     */
+    @RequestMapping(value = "/historyId", params = "id")
+    public ResponseEntity<?> getHistoryById(@RequestParam int id){
+        History history = historyService.getHistoryById(id);
+        log.info("The follow history is for the id received: " + history);
+        return ResponseEntity.status(HttpStatus.OK).body(history);
+    }
+
+    /**
+     *
      * @param history
      * @return
      */
@@ -72,7 +84,7 @@ public class HistoryController {
     public History updateHistory(@RequestBody History history){
         History update = historyService.updateExistingHistory(history);
         log.info("Patient infos updated!" + update);
-        return update;
+        return history;
     }
 
 }

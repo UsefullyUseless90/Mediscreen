@@ -15,7 +15,7 @@ import javax.servlet.http.HttpServletResponse;
 
 @Configuration
 @EnableWebMvc
-public class WebConfig {
+public class WebConfig implements Filter,WebMvcConfigurer {
 
 
 
@@ -23,7 +23,7 @@ public class WebConfig {
         registry.addMapping("/**");
     }
 
-    /*
+
     @Override
     public void doFilter(ServletRequest req, ServletResponse res, FilterChain chain) {
         HttpServletResponse response = (HttpServletResponse) res;
@@ -57,7 +57,6 @@ public class WebConfig {
 
     }
 
-     */
 
 }
 

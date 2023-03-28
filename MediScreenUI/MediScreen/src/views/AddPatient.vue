@@ -37,6 +37,7 @@
 
 <script>
 import patientServices from "../service/patientDataService"
+
 export default {
   name: "add-item",
   data() {
@@ -62,9 +63,11 @@ export default {
         .catch((e) => {
           alert(e);
         });
-    },
+      }
   },
-};
+}
+
+
 </script>
 
 <style scoped>
