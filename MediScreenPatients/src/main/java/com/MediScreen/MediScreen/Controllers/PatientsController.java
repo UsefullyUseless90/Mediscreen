@@ -1,6 +1,7 @@
 package com.MediScreen.MediScreen.Controllers;
 
 import com.MediScreen.MediScreen.Models.DAO.PatientDAO;
+import com.MediScreen.MediScreen.Models.DTO.PatientDTO;
 import com.MediScreen.MediScreen.Repositories.PatientRepository;
 import com.MediScreen.MediScreen.Services.IPatientService;
 import org.apache.logging.log4j.LogManager;
@@ -48,16 +49,17 @@ public class PatientsController {
     }
 
     @PostMapping(path = "/add")
-    public ResponseEntity<?> savePatient(@RequestBody PatientDAO patientDAO){
-        iPatientService.savePatient(patientDAO);
-        ResponseEntity<?> patientSaved = ResponseEntity.status(HttpStatus.OK).body(patientDAO);
+    public ResponseEntity<?> savePatient(@RequestBody PatientDTO patientDTO){
+        PatientDAO patientToSave = new PatientDAO(patientDTO);
+        iPatientService.savePatient(patientToSave);
+        ResponseEntity<?> patientSaved = ResponseEntity.status(HttpStatus.OK).body(patientToSave);
         log.info("New patient added: " + patientSaved);
         return patientSaved;
     }
     @PutMapping
     @RequestMapping(value="/edit")
     public PatientDAO updatePatient(@RequestBody PatientDAO patientDAO){
-        Optional<PatientDAO> patientDAO1 = patientRepository.findById(patientDAO.getIdPatient());
+//        Optional<PatientDAO> patientDAO1 = patientRepository.findById(patientDAO.getIdPatient());
         PatientDAO patientUpdated = iPatientService.updatePatient(patientDAO);
         log.info("Patient infos updated!" + patientUpdated);
        // ResponseEntity<PatientDAO> patientDAOResponseEntity = ResponseEntity.status(HttpStatus.ACCEPTED).body(patientUpdated);

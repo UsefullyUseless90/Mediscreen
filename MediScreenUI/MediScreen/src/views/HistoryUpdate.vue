@@ -2,16 +2,11 @@
   <div class="historyPage">
       <div class="updateHistory">
         <h1>Patient's informations</h1>
-        <td>{{ history.historyId }}</td>
-        <td>{{ history.patientId }}</td>
       </div>
-      <div class="card-body"></div>
-
       <form action="app.js" method="put">
-        
-        <div class="form-group">
-          <label for="PhoneNumber" > Commentary </label>
-          <input type="text" class="form-control" id="commentary" v-model="history.commentary"/>
+        <div class="formUpdate">
+          <label class="com" for="Commentary" > Commentary </label>
+          <input type="text" class="commentary" id="commentary" v-model="history.commentary"/>
         </div>
         <div class="containsB">
         <button class="ubtn" @click="update()">Update Informations</button>
@@ -22,10 +17,10 @@
 </template>
 <script>
 import historyDataService from "../service/historyDataService";
-
+import patientDataService from "../service/patientDataService";
 
 export default {
-  name: "info-patient",
+  name: "info-history",
   data() {
     return {
       patientDAO:{
@@ -53,12 +48,19 @@ export default {
   update() {
       historyDataService.update(this.history).then((response) => {console.log(response.status);
       })
-      this.$router.push({name:'history', params: {id: patientDAO.idPatient}})
+      patientDataService.getPatientId(this.$data.history.patientId).then((response) => {this.$data.patientDAO = {...response.data};
+      })
+      this.$router.push({name:'history', params: {id: this.$data.history.patientId}})
       },
     }
 }
 </script>
 <style>
+.com{
+  font-weight: bolder;
+  font-size: x-large;
+  margin-left: -10em;
+}
 .historyPage{
   position:absolute;
   display: block;
@@ -70,7 +72,7 @@ export default {
   font-size: x-large;
 }
 .ubtn{
-    margin-left: 1em;
+    margin-left: -1em;
     font-weight: bolder;
     position: absolute;
     background-color: rgb(50, 102, 151);
@@ -80,5 +82,9 @@ export default {
     height: 2.5em;
     margin-top: 1em;
     width: 20em;
+}
+.commentary{
+  height: 10em;
+  margin-left: 5em;
 }
 </style>

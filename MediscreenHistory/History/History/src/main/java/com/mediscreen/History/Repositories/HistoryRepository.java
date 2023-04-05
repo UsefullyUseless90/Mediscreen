@@ -11,7 +11,7 @@ import java.util.List;
 @Repository
 public interface HistoryRepository extends MongoRepository<History, Integer> {
 
-    List<History>findByPatientId(int idPatient);
+    List<History>findByPatientName(String patientName);
     History findByHistoryId(@Param("idHistory") int idHistory);
     History deleteHistoryByHistoryId(int idHistory);
 }

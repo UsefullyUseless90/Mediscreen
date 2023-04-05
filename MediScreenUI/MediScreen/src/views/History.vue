@@ -4,7 +4,6 @@
         <div class="card-heading text-center"></div>
         <h1>Patient's informations</h1>
       </div>
-      <div class="card-body"></div>
       <form action="app.js" method="put">
         <div class="form-group">
           <label for="Nom"> Name </label>
@@ -12,7 +11,7 @@
         </div>
       </form>
       <form>
-        <div class="form-group">
+        <div class="formAdd">
           <label for="Prenom"> First Name </label>
           <p>{{ patientDAO.firstName}}</p>
         </div>
@@ -46,14 +45,13 @@
           <tr>
             <td>{{ history.dateOfInterview }}</td>
             <td>{{ history.commentary }}</td>
-            <td>{{ history.historyId }}</td>
-            <td><router-link :to="{ name: 'updateHistory', params: { id: history.historyId }}"><button class="ub" @click="update()">Update history</button></router-link></td>
+            <td><router-link :to="{ name: 'updateHistory', params: { id: history.historyId }}"><button class="ub">Update history</button></router-link></td>
           </tr>
         </tbody>
   </table>
   <div class="add">
       <h2>Commentary for today's interview</h2>
-          <input class="inter" type="text" id="commentary" name="commentary" v-model="historyToSend.commentary"/>
+          <input class="inter" type="text" id="commentary" name="commentary" v-model="historyToSend.practitionerSNotesRecommandation"/>
           <button class="bc" @click="create()">Add commentary</button>
   </div>  
 </div>
@@ -78,16 +76,20 @@ import patientDataService from "../service/patientDataService";
           phoneNumber: ""
         },
         historyToSend:{
-          historyId: 0,
-          patientId: 0,
+          historyId: "",
+          idPatient:0,
+          patient: {
+            name: "", 
+            firstName: "",
+          },
           dateOfInterview:"",
-          commentary:"",
+          practitionerSNotesRecommandation:"",
         },
         histories:[]
       }
     },
     mounted(){
-        console.log(this.$route.params.id);
+      console.log(this.$route.params.id);
         patientDataService.getPatientId(this.$route.params.id).then((response) => {this.patientDAO = {...response.data};
       })
         console.log(this.$route.params.id);
@@ -96,7 +98,9 @@ import patientDataService from "../service/patientDataService";
     },
     methods: {
     create() {
-        this.historyToSend.patientId = this.$data.patientDAO.idPatient;
+      this.$data.historyToSend.idPatient = this.$data.patientDAO.idPatient
+        this.$data.historyToSend.patient.firstName = this.$data.patientDAO.firstName
+        this.$data.historyToSend.patient.name = this.$data.patientDAO.name
         historyDataService.create(this.$data.historyToSend).then((response) => {
           this.historyToSend = response.data;
           this.submitted = true;

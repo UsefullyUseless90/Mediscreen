@@ -1,17 +1,18 @@
 package com.mediscreen.History.Controllers;
 
+import com.mediscreen.History.Models.DTO.HistoryDTO;
 import com.mediscreen.History.Models.History;
 import com.mediscreen.History.Repositories.HistoryRepository;
 import com.mediscreen.History.Service.HistoryService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 @CrossOrigin(origins = "http://localhost:5173/", maxAge = 3600)
 @RestController
@@ -38,12 +39,12 @@ public class HistoryController {
 
     /**
      *
-     * @param id
+     * @param patientName
      * @return
      */
     @RequestMapping(value = "/historiesId", params = "id")
-    public ResponseEntity<?> getHistoriesById(@RequestParam int id){
-        List<History> histories= historyService.getHistoriesById(id);
+    public ResponseEntity<?> getHistoriesById(@RequestParam String patientName){
+        List<History> histories= historyService.getHistoriesByPatientName(patientName);
         log.info("The follow history is for the id received: " + histories);
         return ResponseEntity.status(HttpStatus.OK).body(histories);
     }
@@ -62,12 +63,13 @@ public class HistoryController {
 
     /**
      *
-     * @param history
+     * @param historyDTO
      * @return
      */
 
     @PostMapping(path = "/add")
-    public ResponseEntity<?> saveHistory(@RequestBody History history){
+    public ResponseEntity<?> saveHistory(@RequestBody HistoryDTO historyDTO){
+        History history = new History(historyDTO);
         historyService.addNewHistory(history);
         log.info("New history added: " + history);
         return ResponseEntity.ok(history);

@@ -1,21 +1,22 @@
 package com.MediScreen.MediScreen.Models.DTO;
 
-import com.MediScreen.MediScreen.Models.DAO.PatientDAO;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
-
-import javax.persistence.Column;
-import java.util.Date;
+import java.io.Serializable;
 
 @Getter
 @Setter
-public class PatientDTO {
+@AllArgsConstructor
+public class PatientDTO implements Serializable {
 
-    @Column(name = "name")
-    private String name;
-    @Column(name = "firstName")
-    private String firstName;
-    @Column(name = "birthDate")
-    private Date birthDate;
+    private String given;
+    private String family;
+    private String dob;
+    private String sex;
+    private String address;
+    private String phone;
 
+    public PatientDTO() {
+    }
 }

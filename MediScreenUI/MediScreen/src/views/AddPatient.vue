@@ -7,30 +7,30 @@
       <form action="app.js" method="postt">
         <div class="form-group">
           <label for="LastName"> Last name </label>
-          <input type="text" class="form-control" id="name" v-model="patientDAO.name"/>
+          <input type="text" class="form-control" id="name" v-model="patientDTO.family"/>
         </div>
   
         <div class="form-group">
           <label for="FirstName"> First name </label>
-          <input type="text" class="form-control" id="firstName" v-model="patientDAO.firstName" />
+          <input type="text" class="form-control" id="firstName" v-model="patientDTO.given" />
         </div>
         <div class="form-group">
           <label for="BirthDate" > Date of birth </label>
-          <input type="text" class="form-control" id="birthDate" v-model="patientDAO.birthDate"/>
+          <input type="text" class="form-control" id="birthDate" v-model="patientDTO.dob"/>
         </div>
         <div class="form-group">
           <label for="Gender" > Gender </label>
-          <input type="text" class="form-control" id="gender" v-model="patientDAO.gender"/>
+          <input type="text" class="form-control" id="gender" v-model="patientDTO.sex"/>
         </div>
         <div class="form-group">
           <label for="PostalAddress" > Postal Address </label>
-          <input type="text" class="form-control" id="postalAddress" v-model="patientDAO.postalAddress"/>
+          <input type="text" class="form-control" id="postalAddress" v-model="patientDTO.address"/>
         </div>
         <div class="form-group">
           <label for="PhoneNumber" > Phone Number </label>
-          <input type="text" class="form-control" id="phoneNumber" v-model="patientDAO.phoneNumber"/>
+          <input type="text" class="form-control" id="phoneNumber" v-model="patientDTO.phone"/>
         </div>
-        <button @click="create()" class="btn btn-primary">Add Patient</button>
+        <router-link to="/patients"><button @click="create()" class="btn btn-primary">Add Patient</button></router-link>
       </form>
   </div>
 </template>
@@ -42,19 +42,19 @@ export default {
   name: "add-item",
   data() {
     return {
-      patientDAO: {
-        name: "", 
-        firstName: "",
-        birthDate: "",
-        gender: "",
-        postalAddress: "",
-        phoneNumber: ""
+      patientDTO: {
+        family: "", 
+        given: "",
+        dob: "",
+        sex: "",
+        address: "",
+        phone: ""
       },
     };
   },
   methods: {
     create() {
-      patientServices.create(this.patientDAO)
+      patientServices.create(this.patientDTO)
         .then((response) => {
           this.patientDAO = response.data;
           this.submitted = true;
@@ -92,6 +92,7 @@ export default {
     font-weight: bold;
     font-size: x-large;
     width: 300px;
+    margin-bottom: 10em;
   }
   input{
     width: 300px;

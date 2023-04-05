@@ -56,7 +56,12 @@ public class PatientServiceImpl implements IPatientService {
     @Transactional
     public PatientDAO savePatient(PatientDAO patientDAO){
         patientDAO.setIdPatient(new Random().nextInt());
-        setGenderParamFromLetter(patientDAO);
+        if(patientDAO.getGender().equals("F") || patientDAO.getGender().equals("M")){
+            setGenderParamFromLetter(patientDAO);
+        }
+        else{
+            patientDAO.setGender(patientDAO.getGender());
+        }
         patientRepository.save(patientDAO);
         return patientDAO;
     }
@@ -73,9 +78,14 @@ public class PatientServiceImpl implements IPatientService {
         patientUpdate.setName(patientDAO.getName());
         patientUpdate.setName(patientDAO.getName());
         patientUpdate.setBirthDate(patientDAO.getBirthDate());
-        setGenderParamFromLetter(patientDAO);
         patientUpdate.setPostalAddress(patientDAO.getPostalAddress());
         patientUpdate.setPhoneNumber(patientDAO.getPhoneNumber());
+        if(patientDAO.getGender().equals("F") || patientDAO.getGender().equals("M")){
+            setGenderParamFromLetter(patientDAO);
+        }
+        else{
+            patientUpdate.setGender(patientDAO.getGender());
+        }
         patientRepository.save(patientUpdate);
         return patientUpdate;
     }

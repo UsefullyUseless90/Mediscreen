@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="0958b561-377d-4068-b66b-322d9f34418c" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/.idea/CoverUsage.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/MediScreenPatients/src/test/java/com/MediScreen/MediScreen/Services/Implementation/PatientServiceImplTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/MediScreen.iml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/gradle.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/gradle.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/uiDesigner.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MediScreenPatients/src/main/java/com/MediScreen/MediScreen/Controllers/PatientsController.java" beforeDir="false" afterPath="$PROJECT_DIR$/MediScreenPatients/src/main/java/com/MediScreen/MediScreen/Controllers/PatientsController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MediScreenPatients/src/main/java/com/MediScreen/MediScreen/Models/DAO/PatientDAO.java" beforeDir="false" afterPath="$PROJECT_DIR$/MediScreenPatients/src/main/java/com/MediScreen/MediScreen/Models/DAO/PatientDAO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MediScreenPatients/src/main/java/com/MediScreen/MediScreen/Models/DTO/PatientDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/MediScreenPatients/src/main/java/com/MediScreen/MediScreen/Models/DTO/PatientDTO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MediScreenPatients/src/main/java/com/MediScreen/MediScreen/Services/Implementation/PatientServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/MediScreenPatients/src/main/java/com/MediScreen/MediScreen/Services/Implementation/PatientServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MediScreenUI/MediScreen/src/views/AddPatient.vue" beforeDir="false" afterPath="$PROJECT_DIR$/MediScreenUI/MediScreen/src/views/AddPatient.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MediScreenUI/MediScreen/src/views/History.vue" beforeDir="false" afterPath="$PROJECT_DIR$/MediScreenUI/MediScreen/src/views/History.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MediScreenUI/MediScreen/src/views/HistoryUpdate.vue" beforeDir="false" afterPath="$PROJECT_DIR$/MediScreenUI/MediScreen/src/views/HistoryUpdate.vue" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="ExternalProjectsData">
+    <projectState path="$PROJECT_DIR$/MediScreenPatients">
+      <ProjectState />
+    </projectState>
+    <projectState path="$PROJECT_DIR$/MediscreenHistory/History/History">
+      <ProjectState />
+    </projectState>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="JpbToolWindowState">
+    <option name="myId2FirstActivated">
+      <map>
+        <entry key="com.haulmont.jpb.jpaStructure" value="true" />
+      </map>
+    </option>
+    <option name="myId2Visible">
+      <map>
+        <entry key="com.haulmont.jpb.jpaStructure" value="true" />
+      </map>
+    </option>
+  </component>
+  <component name="ProjectId" id="2NufhaUuaxa63HtmhsKW2omLe2c" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/MediScreenPatients" />
+    <property name="project.structure.last.edited" value="Modules" />
+    <property name="project.structure.proportion" value="0.15" />
+    <property name="project.structure.side.proportion" value="0.42988506" />
+    <property name="settings.editor.selected.configurable" value="com.diffblue.cover.intellij" />
+    <property name="vue.rearranger.settings.migration" value="true" />
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="0958b561-377d-4068-b66b-322d9f34418c" name="Changes" comment="" />
+      <created>1680519011854</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1680519011854</updated>
+      <workItem from="1680519013486" duration="333000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+</project>

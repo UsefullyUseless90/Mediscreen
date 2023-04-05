@@ -2,6 +2,7 @@ package com.mediscreen.History.Service;
 
 import com.mediscreen.History.Models.History;
 import com.mediscreen.History.Repositories.HistoryRepository;
+import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -29,12 +30,12 @@ public class HistoryServiceImpl implements HistoryService{
 
     /**
      *
-     * @param idPatient
+     * @param patientName
      * @return
      */
 
-    public List<History> getHistoriesById(int idPatient){
-        List<History> histories = historyRepository.findByPatientId(idPatient);
+    public List<History> getHistoriesByPatientName(String patientName){
+        List<History> histories = historyRepository.findByPatientName(patientName);
         return histories;
     }
 
@@ -55,7 +56,7 @@ public class HistoryServiceImpl implements HistoryService{
      */
 
     public History addNewHistory(History history){
-        history.setHistoryId(new Random().nextInt());
+       history.setHistoryId(new Random().nextInt());
         Date date = new Date();
         history.setDateOfInterview(sdf.format(date));
         historyRepository.save(history);

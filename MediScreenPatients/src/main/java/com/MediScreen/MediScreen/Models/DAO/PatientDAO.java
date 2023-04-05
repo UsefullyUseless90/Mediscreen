@@ -1,16 +1,14 @@
 package com.MediScreen.MediScreen.Models.DAO;
 
+import com.MediScreen.MediScreen.Models.DTO.PatientDTO;
 import com.sun.istack.NotNull;
-import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
-import java.util.Locale;
 
 
 @Data
@@ -18,6 +16,8 @@ import java.util.Locale;
 @Entity
 @Getter
 @Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class PatientDAO {
     @Id
     @Column(name = "id_patient")
@@ -47,74 +47,16 @@ public class PatientDAO {
     @Column(name = "phone_number")
     private String phoneNumber;
 
-    public PatientDAO(int idPatient,String name, String firstName, String birthDate, String gender, String postalAddress, String phoneNumber) {
-        this.idPatient = idPatient;
-        this.name = name;
-        this.firstName = firstName;
-        this.birthDate = birthDate;
-        this.gender = gender;
-        this.postalAddress = postalAddress;
-        this.phoneNumber = phoneNumber;
+    public PatientDAO(PatientDTO patientDTO){
+        this.setName(patientDTO.getFamily());
+        this.setFirstName(patientDTO.getGiven());
+        this.setBirthDate(patientDTO.getDob());
+        this.setGender(patientDTO.getSex());
+        this.setPostalAddress(patientDTO.getAddress());
+        this.setPhoneNumber(patientDTO.getPhone());
     }
 
-    public PatientDAO() {
-    }
 
-    public int getIdPatient() {
-        return idPatient;
-    }
-
-    public void setIdPatient(int idPatient) {
-        this.idPatient = idPatient;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getFirstName() {
-        return firstName;
-    }
-
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
-
-    public String getBirthDate() {
-        return birthDate;
-    }
-
-    public void setBirthDate(String birthDate) {
-        this.birthDate = birthDate;
-    }
-
-    public String getGender() {
-        return gender;
-    }
-
-    public void setGender(String gender) {
-        this.gender = gender;
-    }
-
-    public String getPostalAddress() {
-        return postalAddress;
-    }
-
-    public void setPostalAddress(String postalAddress) {
-        this.postalAddress = postalAddress;
-    }
-
-    public String getPhoneNumber() {
-        return phoneNumber;
-    }
-
-    public void setPhoneNumber(String phoneNumber) {
-        this.phoneNumber = phoneNumber;
-    }
 
 
 }
