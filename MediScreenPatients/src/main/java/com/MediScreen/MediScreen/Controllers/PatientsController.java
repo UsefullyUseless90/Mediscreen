@@ -33,12 +33,17 @@ public class PatientsController {
         log.info("this is all the patient registered");
         return listePatient;
     }
-    @RequestMapping(value = "/patientName", params = {"name", "firstName"})
-    public ResponseEntity<List<PatientDAO>> getPatientByName(@RequestParam String name,
-                                                             @RequestParam String firstName){
-        List<PatientDAO> patientList= iPatientService.getPatientByName(name, firstName);
+    @RequestMapping(value = "/patientName", params = "name")
+    public ResponseEntity<List<PatientDAO>> getPatientByName(@RequestParam String name){
+        List<PatientDAO> patientList= iPatientService.getPatientByName(name);
         return ResponseEntity.status(HttpStatus.OK).body(patientList);
-
+    }
+    //TODO create a controller that gets one person!
+    @RequestMapping(value = "/patientName&firstName", params = {"name", "firstName"})
+    public ResponseEntity<PatientDAO> getPatientByFullName(@RequestParam String name,
+                                                             @RequestParam String firstName){
+        PatientDAO patient= iPatientService.getPatientByFullName(name, firstName);
+        return ResponseEntity.status(HttpStatus.OK).body(patient);
     }
 
     @RequestMapping(value="/patientId", params = "id")

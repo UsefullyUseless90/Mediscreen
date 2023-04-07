@@ -9,7 +9,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Locale;
 import java.util.Optional;
 import java.util.Random;
 
@@ -32,11 +31,20 @@ public class PatientServiceImpl implements IPatientService {
     /**
      *
      * @param name
+     * @return
+     */
+    public List<PatientDAO> getPatientByName(String name) {
+       return patientRepository.findByName(name);
+    }
+
+    /**
+     *
+     * @param name
      * @param firstName
      * @return
      */
-    public List<PatientDAO> getPatientByName(String name, String firstName) {
-       return patientRepository.findByNameOrFirstName(name, firstName);
+    public PatientDAO getPatientByFullName(String name, String firstName) {
+        return patientRepository.findByNameAndFirstName(name, firstName);
     }
 
     /**

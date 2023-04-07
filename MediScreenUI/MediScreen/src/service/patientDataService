@@ -2,22 +2,22 @@ import axios from "axios";
 
 class PatientDataService {
   getAll() {
-    return axios.get("http://localhost:8080/patient/allPatients");
+    return axios.get("http://localhost:8081/patient/allPatients");
   }
 
   getPatient(name, firstName) {
-    return axios.get("http://localhost:8080/patient/patientName?name=" + name +"&firstName=" + firstName);
+    return axios.get("http://localhost:8081/patient/patientName?name=" + name +"&firstName=" + firstName);
   }
   getPatientId(idPatient) {
-    return axios.get("http://localhost:8080/patient/patientId?id=" + idPatient);
+    return axios.get("http://localhost:8081/patient/patientId?id=" + idPatient);
   }
 
   create(data) {
-    return axios.post("http://localhost:8080/patient/add", data);
+    return axios.post("http://localhost:8081/patient/add", data);
   }
 
   update(data){
-    return axios.put("http://localhost:8080/patient/edit", data);
+    return axios.put("http://localhost:8081/patient/edit", data);
   }
 }
 export default new PatientDataService();

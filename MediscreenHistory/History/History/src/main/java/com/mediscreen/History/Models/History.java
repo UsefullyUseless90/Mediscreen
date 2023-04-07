@@ -24,6 +24,7 @@ public class History {
     private int historyId;
     private int patientId;
     String patientName;
+    String patientFirstName;
     String dateOfInterview;
     String commentary;
 

@@ -39,13 +39,13 @@ public class HistoryController {
 
     /**
      *
-     * @param patientName
+     * @param
      * @return
      */
     @RequestMapping(value = "/historiesId", params = "id")
-    public ResponseEntity<?> getHistoriesById(@RequestParam String patientName){
-        List<History> histories= historyService.getHistoriesByPatientName(patientName);
-        log.info("The follow history is for the id received: " + histories);
+    public ResponseEntity<?> getHistoriesByPatientId(@RequestParam int id){
+        List<History> histories= historyService.getHistoriesByPatientId(id);
+        log.info("The following history is for the id received: " + histories);
         return ResponseEntity.status(HttpStatus.OK).body(histories);
     }
 
@@ -57,9 +57,17 @@ public class HistoryController {
     @RequestMapping(value = "/historyId", params = "id")
     public ResponseEntity<?> getHistoryById(@RequestParam int id){
         History history = historyService.getHistoryById(id);
-        log.info("The follow history is for the id received: " + history);
+        log.info("The following history is for the id received: " + history);
         return ResponseEntity.status(HttpStatus.OK).body(history);
     }
+
+    @RequestMapping(value = "/historiesByName", params = {"name","firstName"})
+    public ResponseEntity<?> getHistoryByPatientName(@RequestParam String name, String firstName){
+        List<History> histories = historyService.getHistoriesByPatientNameAndFirstName(name, firstName);
+        log.info("The following histories is for the id received: " + histories);
+        return ResponseEntity.status(HttpStatus.OK).body(histories);
+    }
+
 
     /**
      *

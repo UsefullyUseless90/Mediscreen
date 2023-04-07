@@ -9,6 +9,7 @@ import java.util.List;
 @Repository
 public interface PatientRepository extends JpaRepository<PatientDAO, Integer> {
 
-    List<PatientDAO> findByNameOrFirstName(String name, String firstName);
+    PatientDAO findByNameAndFirstName(String name, String firstName);
+    List<PatientDAO> findByName(String name);
     PatientDAO findByIdPatient(int idPatient);
 }

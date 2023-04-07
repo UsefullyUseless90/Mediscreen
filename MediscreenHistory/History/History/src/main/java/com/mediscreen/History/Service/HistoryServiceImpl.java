@@ -30,12 +30,17 @@ public class HistoryServiceImpl implements HistoryService{
 
     /**
      *
-     * @param patientName
+     * @param
      * @return
      */
 
-    public List<History> getHistoriesByPatientName(String patientName){
-        List<History> histories = historyRepository.findByPatientName(patientName);
+    public List<History> getHistoriesByPatientId(int patientId){
+        List<History> histories = historyRepository.findByPatientId(patientId);
+        return histories;
+    }
+
+    public List<History> getHistoriesByPatientNameAndFirstName(String name, String firstName){
+        List<History> histories = historyRepository.findByPatientNameAndPatientFirstName(name,firstName);
         return histories;
     }
 

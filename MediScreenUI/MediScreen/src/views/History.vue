@@ -50,8 +50,11 @@
         </tbody>
   </table>
   <div class="add">
+    <h1 for="assessement">Patient assessement:</h1>
+      <p>{{ report.assessment }}</p>
+
       <h2>Commentary for today's interview</h2>
-          <input class="inter" type="text" id="commentary" name="commentary" v-model="historyToSend.practitionerSNotesRecommandation"/>
+          <input class="inter" type="text" id="commentary" name="commentary" v-model="historyDTO.practitionerSNotesRecommandation"/>
           <button class="bc" @click="create()">Add commentary</button>
   </div>  
 </div>
@@ -61,6 +64,7 @@
 
 import historyDataService from "../service/historyDataService";
 import patientDataService from "../service/patientDataService";
+import assessDataService from "../service/AssessementDataService"
 
   export default {
     name: "info-patient",
@@ -75,15 +79,23 @@ import patientDataService from "../service/patientDataService";
           postalAddress: "",
           phoneNumber: ""
         },
-        historyToSend:{
-          historyId: "",
-          idPatient:0,
-          patient: {
+        historyDTO:{
+          patientId:0,
+          patientName: "", 
+          practitionerSNotesRecommandation:"",
+        },
+        report:{
+          age:0,
+          assessment:"",
+          patient:{
+            idPatient: 0,
             name: "", 
             firstName: "",
+            birthDate: "",
+            gender: "",
+            postalAddress: "",
+            phoneNumber: ""
           },
-          dateOfInterview:"",
-          practitionerSNotesRecommandation:"",
         },
         histories:[]
       }
@@ -95,13 +107,15 @@ import patientDataService from "../service/patientDataService";
         console.log(this.$route.params.id);
         historyDataService.getHistoriesId(this.$route.params.id).then((response) => {this.histories = {...response.data};
       })
+      console.log(this.$route.params.id);
+      assessDataService.getAssessById(this.$route.params.id).then((response) => {this.report = {...response.data};
+     })
     },
     methods: {
     create() {
-      this.$data.historyToSend.idPatient = this.$data.patientDAO.idPatient
-        this.$data.historyToSend.patient.firstName = this.$data.patientDAO.firstName
-        this.$data.historyToSend.patient.name = this.$data.patientDAO.name
-        historyDataService.create(this.$data.historyToSend).then((response) => {
+        this.$data.historyDTO.patientId = this.$data.patientDAO.idPatient
+        this.$data.historyDTO.patientName = this.$data.patientDAO.name
+        historyDataService.create(this.$data.historyDTO).then((response) => {
           this.historyToSend = response.data;
           this.submitted = true;
           window.location.reload();

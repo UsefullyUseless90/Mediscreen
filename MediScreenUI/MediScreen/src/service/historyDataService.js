@@ -5,8 +5,8 @@ class HistoryDataService{
   getAll(){
     return axios.get("http://localhost:8082/patHistory/allHistories")
   }
-  getHistoriesId(idHistory){
-    return axios.get("http://localhost:8082/patHistory/historiesId?id=" + idHistory)
+  getHistoriesId(idPatient){
+    return axios.get("http://localhost:8082/patHistory/historiesId?id=" + idPatient)
   }
   getHistoryId(idHistory){
     return axios.get("http://localhost:8082/patHistory/historyId?id=" + idHistory)

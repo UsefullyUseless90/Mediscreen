@@ -9,8 +9,10 @@ import java.util.Optional;
 public interface IPatientService {
 
     Iterable<PatientDAO> getAllPatients();
-    List<PatientDAO> getPatientByName(String name, String firstName);
+    List<PatientDAO> getPatientByName(String name);
+    PatientDAO getPatientByFullName(String name, String firstName);
     Optional<PatientDAO> getPatientById(int id);
     PatientDAO savePatient(PatientDAO patientDAO);
     PatientDAO updatePatient(PatientDAO patientDAO);
+
 }
