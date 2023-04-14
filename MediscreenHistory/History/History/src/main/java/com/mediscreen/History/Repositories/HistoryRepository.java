@@ -13,6 +13,6 @@ public interface HistoryRepository extends MongoRepository<History, Integer> {
 
     List<History>findByPatientId(int id);
     List<History>findByPatientNameAndPatientFirstName(String name, String firstName);
-    History findByHistoryId(@Param("idHistory") int idHistory);
-    History deleteHistoryByHistoryId(int idHistory);
+    History findByHistoryId(@Param("idHistory") String idHistory);
+    History deleteHistoryByHistoryId(String idHistory);
 }

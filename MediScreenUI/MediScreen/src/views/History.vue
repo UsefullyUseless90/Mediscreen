@@ -19,7 +19,7 @@
         <form>
           <div class="form-group">
             <label for="birthDate" > Date of birth </label>
-              <p>{{patientDAO.birthDate}}</p>
+              <p>{{patientDAO.birthDate}} ({{ report.age }} years old)</p>  
           </div>
           <div class="form-group">
             <label for="gender" > Gender </label>
@@ -52,6 +52,7 @@
   <div class="add">
     <h1 for="assessement">Patient assessement:</h1>
       <p>{{ report.assessment }}</p>
+     
 
       <h2>Commentary for today's interview</h2>
           <input class="inter" type="text" id="commentary" name="commentary" v-model="historyDTO.practitionerSNotesRecommandation"/>

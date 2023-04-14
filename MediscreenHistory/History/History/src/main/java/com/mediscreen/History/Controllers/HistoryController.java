@@ -55,7 +55,7 @@ public class HistoryController {
      * @return
      */
     @RequestMapping(value = "/historyId", params = "id")
-    public ResponseEntity<?> getHistoryById(@RequestParam int id){
+    public ResponseEntity<?> getHistoryById(@RequestParam String id){
         History history = historyService.getHistoryById(id);
         log.info("The following history is for the id received: " + history);
         return ResponseEntity.status(HttpStatus.OK).body(history);

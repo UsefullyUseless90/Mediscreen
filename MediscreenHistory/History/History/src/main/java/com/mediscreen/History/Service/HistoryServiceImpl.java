@@ -49,7 +49,7 @@ public class HistoryServiceImpl implements HistoryService{
      * @param historyId
      * @return
      */
-    public History getHistoryById(int historyId){
+    public History getHistoryById(String historyId){
         History history = historyRepository.findByHistoryId(historyId);
         return history;
     }
@@ -61,7 +61,9 @@ public class HistoryServiceImpl implements HistoryService{
      */
 
     public History addNewHistory(History history){
-       history.setHistoryId(new Random().nextInt());
+        int id = new Random().nextInt();
+        String idToString = String.valueOf(id);
+        history.setHistoryId(idToString);
         Date date = new Date();
         history.setDateOfInterview(sdf.format(date));
         historyRepository.save(history);

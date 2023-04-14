@@ -20,8 +20,8 @@ import java.util.Date;
 @Document(collection = "history")
 public class History {
 
-    @Field(targetType = FieldType.OBJECT_ID)
-    private int historyId;
+    @Id
+    private String historyId;
     private int patientId;
     String patientName;
     String patientFirstName;

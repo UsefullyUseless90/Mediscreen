@@ -3,17 +3,21 @@ package com.mediscreen.DiabetesAssessment.service;
 import com.mediscreen.DiabetesAssessment.model.History;
 import com.mediscreen.DiabetesAssessment.model.Patient;
 import com.mediscreen.DiabetesAssessment.model.Report;
-import com.mediscreen.DiabetesAssessment.model.references.Assessements;
+import com.mediscreen.DiabetesAssessment.model.references.Triggers;
 import com.mediscreen.DiabetesAssessment.proxies.HistoryProxy;
 import com.mediscreen.DiabetesAssessment.proxies.PatientProxy;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.Trigger;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.time.Period;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Locale;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Service
@@ -40,6 +44,7 @@ public class AssessmentServiceImpl implements AssessmentService {
             "Réaction",
             "Anticorps");
 
+
     public Report generateReportById(int patientId) {
         Report patientReportById = new Report();
         Patient patient = patientProxy.getPatientById(patientId);
@@ -49,14 +54,21 @@ public class AssessmentServiceImpl implements AssessmentService {
         LocalDate now = LocalDate.now();
         patientReportById.setAge(Period.between(formatter, now).getYears());
         List<History> histories = historyProxy.getHistoriesById(patient.getIdPatient());
+        List<String> historyCommentaries = new ArrayList<>();
         Integer triggerCount = 0;
         for (History h : histories) {
+            historyCommentaries.add(h.getCommentary());
+        }
+        List<String> commentariesToUpper = historyCommentaries.stream().map(String::toUpperCase).collect(Collectors.toList());
+        List<String> trigsToUpper = trigs.stream().map(String::toUpperCase).collect(Collectors.toList());
+        List<String> triggeredCommentaries = commentariesToUpper.stream().filter(trigsToUpper::contains).collect(Collectors.toList());
+        for (String c : commentariesToUpper){
             for (int i = 0; i < trigs.size(); i++) {
-                if (h.getCommentary().contains(trigs.get(i))) {
+                if (c.contains(trigsToUpper.get(i).toUpperCase(Locale.ROOT))) {
                     triggerCount++;
                 }
             }
-        }
+    }
             if(patientReportById.getAge() > 30){
                 patientReportById.setAssessment(assessAssignment.assignAssessThirtyPlus(triggerCount).toString());
             }

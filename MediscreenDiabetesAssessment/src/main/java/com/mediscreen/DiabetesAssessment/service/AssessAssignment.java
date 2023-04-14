@@ -45,16 +45,17 @@ public class AssessAssignment {
 
     public String assignAssessMale(int counter){
         Report report = new Report();
-        if(counter == 0 ){
+        if(counter >= 0 ){
             report.setAssessment(assessementsMale.NONE.toString());
         }
-        if(counter == 2){
+        //Seulement +30
+        if(counter >= 2){
             report.setAssessment(assessementsMale.BORDERLINE.toString());
         }
-        if (counter == 3){
+        if (counter >= 3){
             report.setAssessment(assessementsMale.INDANGER.toString());
         }
-        if (counter == 6){
+        if (counter >= 6){
             report.setAssessment(assessementsMale.EARLYONSET.toString());
         }
         return report.getAssessment();
@@ -62,16 +63,17 @@ public class AssessAssignment {
 
     public String assignAssessFemale(int counter){
         Report report = new Report();
-        if(counter == 0 ){
+        if(counter >= 0 ){
             report.setAssessment(assessementsFemale.NONE.toString());
         }
-        if(counter == 2){
+        //Seulement +30
+        if(counter >= 2){
             report.setAssessment(assessementsFemale.BORDERLINE.toString());
         }
-        if (counter == 4){
+        if (counter >= 4){
             report.setAssessment(assessementsFemale.INDANGER.toString());
         }
-        if (counter == 7){
+        if (counter >= 7){
             report.setAssessment(assessementsFemale.EARLYONSET.toString());
         }
         return report.getAssessment();
