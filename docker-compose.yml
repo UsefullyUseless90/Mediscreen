@@ -5,7 +5,7 @@ services:
     container_name: mysqldb
     restart: always
     ports:
-      - '6033:3306'
+      - '8033:3308'
     environment:
       - MYSQL_ROOT_PASSWORD=root
       - MYSQL_DATABASE=mediscreen
