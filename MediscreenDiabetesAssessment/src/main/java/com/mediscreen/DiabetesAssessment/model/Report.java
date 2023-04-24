@@ -1,6 +1,5 @@
 package com.mediscreen.DiabetesAssessment.model;
 
-import com.mediscreen.DiabetesAssessment.model.references.Assessements;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

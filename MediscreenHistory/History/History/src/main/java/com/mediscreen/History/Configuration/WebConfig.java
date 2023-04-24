@@ -3,19 +3,11 @@ package com.mediscreen.History.Configuration;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
-
-import javax.servlet.Filter;
-import javax.servlet.FilterChain;
-import javax.servlet.ServletRequest;
-import javax.servlet.ServletResponse;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 
 @Configuration
 @EnableWebMvc
-public class WebConfig implements Filter,WebMvcConfigurer {
+public class WebConfig  {
 
 
 
@@ -23,7 +15,7 @@ public class WebConfig implements Filter,WebMvcConfigurer {
         registry.addMapping("/**");
     }
 
-
+/*
     @Override
     public void doFilter(ServletRequest req, ServletResponse res, FilterChain chain) {
         HttpServletResponse response = (HttpServletResponse) res;
@@ -56,6 +48,8 @@ public class WebConfig implements Filter,WebMvcConfigurer {
         }
 
     }
+
+ */
 
 
 }

@@ -14,7 +14,7 @@ import java.util.List;
 public interface HistoryProxy {
 
     /**
-     *
+     * endpoint with id params
      * @param id
      * @return
      */
@@ -22,18 +22,15 @@ public interface HistoryProxy {
     ResponseEntity<?> getHistoryById(@RequestParam int id);
 
     /**
-     *
+     *endpoint with full name params
      * @param
      * @return
      */
-    // In case of duplicates ??
-    // (According to me this needs to have a firstname in addition,
-    // to locate the history of the wanted patient)
     @RequestMapping(value = "/historiesByName", params = {"name","firstName"})
     List<History> getHistoriesByPatientName(@RequestParam String name, @RequestParam String firstName);
 
     /**
-     *
+     * endpoint with id params
      * @param id
      * @return
      */

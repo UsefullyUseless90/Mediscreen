@@ -1,14 +1,13 @@
 package com.mediscreen.DiabetesAssessment.service;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.mediscreen.DiabetesAssessment.model.History;
 import com.mediscreen.DiabetesAssessment.model.Patient;
 import com.mediscreen.DiabetesAssessment.model.Report;
-import com.mediscreen.DiabetesAssessment.model.references.Triggers;
 import com.mediscreen.DiabetesAssessment.proxies.HistoryProxy;
 import com.mediscreen.DiabetesAssessment.proxies.PatientProxy;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.scheduling.Trigger;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -30,6 +29,9 @@ public class AssessmentServiceImpl implements AssessmentService {
     @Autowired
     AssessAssignment assessAssignment;
 
+    /**
+     * List of triggers that are counted for assessements assignment
+     */
 
     List<String> trigs = Arrays.asList(
             "Hémoglobine A1C",
@@ -44,24 +46,24 @@ public class AssessmentServiceImpl implements AssessmentService {
             "Réaction",
             "Anticorps");
 
+    /**
+     * Generates a report with id param
+     * @param patientId
+     * @return
+     * @throws JsonProcessingException
+     */
 
-    public Report generateReportById(int patientId) {
+    public Report generateReportById(int patientId) throws JsonProcessingException {
         Report patientReportById = new Report();
         Patient patient = patientProxy.getPatientById(patientId);
         patientReportById.setPatient(patient);
-        String dob = patient.getBirthDate();
-        LocalDate formatter = LocalDate.parse(dob);
-        LocalDate now = LocalDate.now();
-        patientReportById.setAge(Period.between(formatter, now).getYears());
+        setPatientAge(patientReportById);
         List<History> histories = historyProxy.getHistoriesById(patient.getIdPatient());
         List<String> historyCommentaries = new ArrayList<>();
         Integer triggerCount = 0;
-        for (History h : histories) {
-            historyCommentaries.add(h.getCommentary());
-        }
-        List<String> commentariesToUpper = historyCommentaries.stream().map(String::toUpperCase).collect(Collectors.toList());
+        histories.stream().forEach(history -> historyCommentaries.add(history.getCommentary()));
         List<String> trigsToUpper = trigs.stream().map(String::toUpperCase).collect(Collectors.toList());
-        List<String> triggeredCommentaries = commentariesToUpper.stream().filter(trigsToUpper::contains).collect(Collectors.toList());
+        List<String> commentariesToUpper = historyCommentaries.stream().map(String::toUpperCase).collect(Collectors.toList());
         for (String c : commentariesToUpper){
             for (int i = 0; i < trigs.size(); i++) {
                 if (c.contains(trigsToUpper.get(i).toUpperCase(Locale.ROOT))) {
@@ -86,19 +88,27 @@ public class AssessmentServiceImpl implements AssessmentService {
         return patientReportById;
     }
 
+    /**
+     * Generates a report with full name param
+     * @param name
+     * @param firstName
+     * @return
+     */
     public Report generateReportByPatientName(String name, String firstName){
         Report patientReportByPatientName = new Report();
         Patient patient = patientProxy.getPatientByName(name, firstName);
         patientReportByPatientName.setPatient(patient);
-        String dob = patient.getBirthDate();
-        LocalDate formatter = LocalDate.parse(dob);
-        LocalDate now = LocalDate.now();
-        patientReportByPatientName.setAge(Period.between(formatter, now).getYears());
+        setPatientAge(patientReportByPatientName);
         List<History> histories = historyProxy.getHistoriesById(patient.getIdPatient());
+        List<String> historyCommentaries = new ArrayList<>();
+        histories.stream().forEach(history -> historyCommentaries.add(history.getCommentary()));
+        List<String> trigsToUpper = trigs.stream().map(String::toUpperCase).collect(Collectors.toList());
+        List<String> commentariesToUpper = historyCommentaries.stream().map(String::toUpperCase).collect(Collectors.toList());
         Integer triggerCount = 0;
-        for (History h : histories) {
+
+        for (String c : commentariesToUpper) {
             for (int i = 0; i < trigs.size(); i++) {
-                if (h.getCommentary().contains(trigs.get(i))) {
+                if (c.contains(trigsToUpper.get(i).toUpperCase(Locale.ROOT))){
                     triggerCount++;
                 }
             }
@@ -120,32 +130,29 @@ public class AssessmentServiceImpl implements AssessmentService {
         return patientReportByPatientName;
         }
 
+        public Report setPatientAge(Report report){
+
+            String birthdate = report.getPatient().getBirthDate();
+            LocalDate formatter = LocalDate.parse(birthdate);
+            LocalDate now = LocalDate.now();
+            report.setAge(Period.between(formatter, now).getYears());
+
+            return report;
+        }
+/*
+        public Map<String, Long> triggers(List<String> commentaries , List<String> triggers){
+
+        Map<String, Long> map = commentaries.stream().map(c -> c.split("\\b" + "\\s")).flatMap(w-> Arrays.stream(w).distinct()).filter(triggers::contains).collect(Collectors.groupingBy(Function.identity(),Collectors.counting()));
+        return map;
+        }
+/*
+        public Long countTriggers(List<String> commentaries) throws JsonProcessingException {
+        List<String> trigsToUpper = trigs.stream().map(String::toUpperCase).collect(Collectors.toList());
+        List<String> commentariesToUpper = commentaries.stream().map(String::toUpperCase).collect(Collectors.toList());
+        Map<String, List<String>> count1 = trigsToUpper.stream().flatMap(trigger -> trigsToUpper.stream().filter(commentariesToUpper::contains)).collect(Collectors.groupingBy(Function.identity()));
+        long count = count1.size();
+        return count;
+        }
+
+ */
     }
-    /*
-        Report patientReportByName = new Report();
-        Patient patient = patientProxy.getPatientByName(firstName, name);
-        patientReportByName.setPatient(patient);
-        String dob = patient.getBirthDate();
-        LocalDate formatter= LocalDate.parse(dob);
-        LocalDate now = LocalDate.now();
-        patientReportByName.setAge(Period.between(formatter,now).getYears());
-        List<History> histories = historyProxy.getHistoriesById(patient.getName(), patient.getFirstName());
-        Integer triggerCount = 0;
-        for(History h : histories){
-           // if(h.getCommentary().contains(triggers.toString())){
-                triggerCount++;
-            }
-            if(patientReportByName.getPatient().getGender() == "male") {
-                if (patientReportByName.getAge() < 30 || patientReportByName.getPatient().equals(30)) {
-                    patientReportByName.setAssessment(assessAssignment.assessementsMale);
-                }
-            }else if(patientReportByName.getPatient().getGender() == "female"){
-                if (patientReportByName.getAge() < 30 || patientReportByName.getPatient().equals(30)){
-                    patientReportByName.setAssessment(assessAssignment.assessementsFemale);
-                }
-                else{
-                    patientReportByName.setAssessment(assessAssignment.assessementsPlusThirty);
-                }
-            }
-        return patientReportByName;
-        */

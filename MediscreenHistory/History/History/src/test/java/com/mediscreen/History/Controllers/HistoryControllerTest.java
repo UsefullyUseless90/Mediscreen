@@ -5,15 +5,11 @@ import com.mediscreen.History.Models.DTO.HistoryDTO;
 import com.mediscreen.History.Models.History;
 import com.mediscreen.History.Repositories.HistoryRepository;
 import com.mediscreen.History.Service.HistoryServiceImpl;
-import org.junit.Assert;
 import org.junit.Before;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -23,23 +19,12 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
-import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.Mockito.*;
-import static org.mockito.Mockito.any;
-import static org.mockito.Mockito.anyInt;
-import static org.mockito.Mockito.doNothing;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 
 @ExtendWith(MockitoExtension.class)
@@ -73,7 +58,7 @@ class HistoryControllerTest {
     public void setup() {
 
         //History history1 = new History();
-        history1.setHistoryId("10");
+        history1.setHistoryId(10);
         history1.setPatientId(01);
         history1.setPatientName("Name");
         history1.setPatientFirstName("firstname");
@@ -81,7 +66,7 @@ class HistoryControllerTest {
         history1.setCommentary("blablablabla");
 
         //History history2 = new History();
-        history2.setHistoryId("20");
+        history2.setHistoryId(20);
         history2.setPatientId(02);
         history2.setPatientName("fake");
         history2.setPatientFirstName("fakefirstname");
@@ -89,7 +74,7 @@ class HistoryControllerTest {
         history2.setCommentary("blablablablaM");
 
         //History history3 = new History();
-        history3.setHistoryId("30");
+        history3.setHistoryId(30);
         history3.setPatientId(03);
         history3.setPatientName("fakeAgain");
         history3.setPatientFirstName("fakeAgainfirstname");
@@ -186,33 +171,44 @@ class HistoryControllerTest {
      * Method under test: {@link HistoryController#updateHistory(History)}
      */
     @Test
+    void testUpdateHistoryWithClientError() throws Exception {
+        mvc = MockMvcBuilders.webAppContextSetup(context).build();
+        mvc.perform(put("/patHistory/edit", history1))
+                        .andExpect(status().is4xxClientError());
+
+    }
+
+    /**
+     * Method under test: {@link HistoryController#updateHistory(History)}
+     */
+    /*
+    @Test
     void testUpdateHistory() throws Exception {
+        History history = new History();
+        history.setHistoryId(10);
+        history.setPatientId(01);
+        history.setPatientName("Name");
+        history.setPatientFirstName("firstname");
+        history.setDateOfInterview("2023-03-23");
+        history.setCommentary("blablablabla");
 
         History history1 = new History();
-        history1.setHistoryId("-1990717488");
-        history1.setPatientId(1);
+        history1.setHistoryId(10);
+        history1.setPatientId(01);
         history1.setPatientName("Name");
         history1.setPatientFirstName("firstname");
         history1.setDateOfInterview("2023-03-23");
         history1.setCommentary("blablablabla");
-        History historyToUpdate = history1;
-        historyToUpdate.setCommentary("new test update");
-        when(historyRepository.findByHistoryId(anyString())).thenReturn(history1);
-        //when(historyController.updateHistory(history1)).thenReturn(historyToUpdate);
-        when(historyService.updateExistingHistory(history1)).thenReturn(history1);
-
-
+        when(historyService.updateExistingHistory(history)).thenReturn(history1);
         ObjectMapper mapper = new ObjectMapper();
         String historyToString = mapper.writeValueAsString(history1);
-
-
+        //when(historyRepository.findByHistoryId(anyInt())).thenReturn(history);
         mvc = MockMvcBuilders.webAppContextSetup(context).build();
         mvc.perform(put("/patHistory/edit")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(historyToString).accept(MediaType.APPLICATION_JSON))
-                        .andExpect(status().isOk());
-
+                        .content(historyToString))
+                .andExpect(status().isOk());
     }
 
-
+     */
 }

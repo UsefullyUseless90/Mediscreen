@@ -6,7 +6,6 @@ import com.mediscreen.History.Repositories.HistoryRepository;
 import com.mediscreen.History.Service.HistoryService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -27,8 +26,8 @@ public class HistoryController {
     Logger log = LogManager.getLogger(HistoryController.class);
 
     /**
-     *
-     * @return
+     * endpoint to get all histories
+     * @return a list of histories
      */
     @RequestMapping("/allHistories")
     public ResponseEntity<Iterable<History>>getAllHistories(){
@@ -38,9 +37,9 @@ public class HistoryController {
     }
 
     /**
-     *
-     * @param
-     * @return
+     * endpoint with patient's id params
+     * @param id
+     * @return ResponseEntity with a list of histories attached.
      */
     @RequestMapping(value = "/historiesId", params = "id")
     public ResponseEntity<?> getHistoriesByPatientId(@RequestParam int id){
@@ -50,17 +49,23 @@ public class HistoryController {
     }
 
     /**
-     *
+     * endpoint with history id params
      * @param id
-     * @return
+     * @return a history
      */
     @RequestMapping(value = "/historyId", params = "id")
-    public ResponseEntity<?> getHistoryById(@RequestParam String id){
+    public ResponseEntity<?> getHistoryById(@RequestParam int id){
         History history = historyService.getHistoryById(id);
         log.info("The following history is for the id received: " + history);
         return ResponseEntity.status(HttpStatus.OK).body(history);
     }
 
+    /**
+     * endpoint with patient's full name params
+     * @param name
+     * @param firstName
+     * @return
+     */
     @RequestMapping(value = "/historiesByName", params = {"name","firstName"})
     public ResponseEntity<?> getHistoryByPatientName(@RequestParam String name, String firstName){
         List<History> histories = historyService.getHistoriesByPatientNameAndFirstName(name, firstName);
@@ -70,9 +75,9 @@ public class HistoryController {
 
 
     /**
-     *
+     * endpoint that used for adding new history
      * @param historyDTO
-     * @return
+     * @return ResponseEntity with a history attached.
      */
 
     @PostMapping(path = "/add")
@@ -84,9 +89,9 @@ public class HistoryController {
     }
 
     /**
-     *
+     * endpoint that used for updating an existing history
      * @param history
-     * @return
+     * @return a history
      */
 
     @PutMapping

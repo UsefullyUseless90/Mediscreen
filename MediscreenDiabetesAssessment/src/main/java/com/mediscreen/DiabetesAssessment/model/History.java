@@ -15,4 +15,5 @@ public class History {
     String patientName;
     String dateOfInterview;
     String commentary;
+
 }

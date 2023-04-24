@@ -26,6 +26,10 @@ public class PatientsController {
 
     Logger log = LogManager.getLogger(PatientsController.class);
 
+    /**
+     * endpoint to get all patients
+     * @return a list of patients
+     */
     @RequestMapping("/allPatients")
     public ResponseEntity<Iterable<PatientDAO>> getAllPatients(){
         Iterable<PatientDAO> patients = iPatientService.getAllPatients();
@@ -33,12 +37,24 @@ public class PatientsController {
         log.info("this is all the patient registered");
         return listePatient;
     }
+
+    /**
+     * endpoint to get all patients with a name
+     * @param name
+     * @return a list of patients
+     */
     @RequestMapping(value = "/patientName", params = "name")
     public ResponseEntity<List<PatientDAO>> getPatientByName(@RequestParam String name){
         List<PatientDAO> patientList= iPatientService.getPatientByName(name);
         return ResponseEntity.status(HttpStatus.OK).body(patientList);
     }
-    //TODO create a controller that gets one person!
+
+    /**
+     * endpoint to get patient with his full name
+     * @param name
+     * @param firstName
+     * @return a patient
+     */
     @RequestMapping(value = "/patientName&firstName", params = {"name", "firstName"})
     public ResponseEntity<PatientDAO> getPatientByFullName(@RequestParam String name,
                                                              @RequestParam String firstName){
@@ -46,6 +62,11 @@ public class PatientsController {
         return ResponseEntity.status(HttpStatus.OK).body(patient);
     }
 
+    /**
+     * endpoint to get patient with his id
+     * @param id
+     * @return a patient
+     */
     @RequestMapping(value="/patientId", params = "id")
     public ResponseEntity<Optional<PatientDAO>> getPatientById(@RequestParam int id){
         Optional<PatientDAO> patientDAO = iPatientService.getPatientById(id);
@@ -53,6 +74,11 @@ public class PatientsController {
         return ResponseEntity.status(HttpStatus.OK).body(patientDAO);
     }
 
+    /**
+     * endpoint that used for adding new patient
+     * @param patientDTO
+     * @return the new patient
+     */
     @PostMapping(path = "/add")
     public ResponseEntity<?> savePatient(@RequestBody PatientDTO patientDTO){
         PatientDAO patientToSave = new PatientDAO(patientDTO);
@@ -61,13 +87,17 @@ public class PatientsController {
         log.info("New patient added: " + patientSaved);
         return patientSaved;
     }
+
+    /**
+     * endpoint that used for updating an existing patient
+     * @param patientDAO
+     * @return the updated patient
+     */
     @PutMapping
     @RequestMapping(value="/edit")
     public PatientDAO updatePatient(@RequestBody PatientDAO patientDAO){
-//        Optional<PatientDAO> patientDAO1 = patientRepository.findById(patientDAO.getIdPatient());
         PatientDAO patientUpdated = iPatientService.updatePatient(patientDAO);
         log.info("Patient infos updated!" + patientUpdated);
-       // ResponseEntity<PatientDAO> patientDAOResponseEntity = ResponseEntity.status(HttpStatus.ACCEPTED).body(patientUpdated);
         return patientUpdated;
     }
 }

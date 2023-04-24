@@ -7,10 +7,6 @@ import com.mediscreen.DiabetesAssessment.proxies.PatientProxy;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
 @Component
 public class AssessAssignment {
 
@@ -24,23 +20,6 @@ public class AssessAssignment {
     Assessements assessementsFemale;
     Assessements assessementsPlusThirty;
 
-    public int counterAssess(){
-    List<String> trigs = Arrays.asList(
-            "Hémoglobine A1C",
-            "Microalbumine",
-            "Taille",
-            "Poids",
-            "Fumeur",
-            "Anormal",
-            "Cholestérol",
-            "Vertige",
-            "Rechute",
-            "Réaction",
-            "Anticorps");
-
-    return 0;
-
-    }
 
 
     public String assignAssessMale(int counter){

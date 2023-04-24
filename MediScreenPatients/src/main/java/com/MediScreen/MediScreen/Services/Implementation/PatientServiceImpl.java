@@ -12,7 +12,6 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Random;
 
-@Slf4j
 @Service
 public class PatientServiceImpl implements IPatientService {
 
@@ -20,8 +19,8 @@ public class PatientServiceImpl implements IPatientService {
     PatientRepository patientRepository;
 
     /**
-     *
-     * @return
+     * method to get all patients
+     * @return a list of patients
      */
     public Iterable<PatientDAO> getAllPatients() {
         Iterable<PatientDAO> patients = patientRepository.findAll();
@@ -29,37 +28,37 @@ public class PatientServiceImpl implements IPatientService {
     }
 
     /**
-     *
+     * method to get all patients with a name
      * @param name
-     * @return
+     * @return a list of patients
      */
     public List<PatientDAO> getPatientByName(String name) {
        return patientRepository.findByName(name);
     }
 
     /**
-     *
+     * method to get patient with his full name
      * @param name
      * @param firstName
-     * @return
+     * @return a patient
      */
     public PatientDAO getPatientByFullName(String name, String firstName) {
         return patientRepository.findByNameAndFirstName(name, firstName);
     }
 
     /**
-     *
+     * method to get patient with his id
      * @param id
-     * @return
+     * @return a patient
      */
     public Optional<PatientDAO> getPatientById(int id){
         return patientRepository.findById(id);
     }
 
     /**
-     *
+     * method in charge of adding new patient
      * @param patientDAO
-     * @return
+     * @return the new patient
      */
     @Transactional
     public PatientDAO savePatient(PatientDAO patientDAO){
@@ -75,9 +74,9 @@ public class PatientServiceImpl implements IPatientService {
     }
 
     /**
-     *
+     * method in charge of updating an existing patient
      * @param patientDAO
-     * @return
+     * @return the updated patient
      */
     @Transactional
     public PatientDAO updatePatient(PatientDAO patientDAO){
@@ -98,6 +97,10 @@ public class PatientServiceImpl implements IPatientService {
         return patientUpdate;
     }
 
+    /**
+     * method that set gender with a letter
+     * @param patientDAO
+     */
     public void setGenderParamFromLetter(PatientDAO patientDAO){
         if (patientDAO.getGender().equals("M") || patientDAO.getGender().equals("Men"))  {
             patientDAO.setGender("male");

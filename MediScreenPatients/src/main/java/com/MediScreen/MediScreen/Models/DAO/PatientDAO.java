@@ -1,7 +1,9 @@
 package com.MediScreen.MediScreen.Models.DAO;
 
+import com.MediScreen.MediScreen.Configuration.JacocoExclusion;
 import com.MediScreen.MediScreen.Models.DTO.PatientDTO;
 import com.sun.istack.NotNull;
+
 import lombok.*;
 
 import javax.persistence.Column;
@@ -10,7 +12,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
 
-
+@JacocoExclusion
 @Data
 @Table(name = "patients_informations")
 @Entity
@@ -18,6 +20,7 @@ import javax.validation.constraints.NotBlank;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+
 public class PatientDAO {
     @Id
     @Column(name = "id_patient")

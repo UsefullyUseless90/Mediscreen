@@ -15,6 +15,7 @@ import javax.servlet.http.HttpServletResponse;
 
 @Configuration
 @EnableWebMvc
+@JacocoExclusion
 public class WebConfig implements Filter,WebMvcConfigurer {
 
 

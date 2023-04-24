@@ -1,5 +1,6 @@
 package com.mediscreen.DiabetesAssessment.controller;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.mediscreen.DiabetesAssessment.model.Report;
 import com.mediscreen.DiabetesAssessment.service.AssessmentService;
 import org.apache.logging.log4j.LogManager;
@@ -20,13 +21,27 @@ public class AssessmentController {
 
     Logger log = LogManager.getLogger(AssessmentController.class);
 
+    /**
+     * endpoint with id params
+     * @param patientId
+     * @return
+     * @throws JsonProcessingException
+     */
     @RequestMapping(value = "/id", params = "patientId")
-    public Report getReportByPatientId(@RequestParam int patientId) {
+    public Report getReportByPatientId(@RequestParam int patientId) throws JsonProcessingException {
         log.info("report generated");
         return assessmentService.generateReportById(patientId);
     }
+
+    /**
+     * endpoint with full name params
+     * @param name
+     * @param firstName
+     * @return
+     */
     @RequestMapping(value = "/familyName", params = {"firstName", "name"})
     public Report getReportByPatientName(@RequestParam String name, @RequestParam String firstName){
+        log.info("report generated");
         return assessmentService.generateReportByPatientName(name,firstName);
     }
 }

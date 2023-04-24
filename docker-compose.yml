@@ -1,0 +1,64 @@
+version: "0.0.1"
+services:
+  mysqldb:
+    image: mysql
+    container_name: mysqldb
+    restart: always
+    ports:
+      - '6033:3306'
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_DATABASE=mediscreen
+    volumes:
+      - .mysql-data:/var/lib/mysql
+    networks:
+      - mediscreen
+
+    mongodb:
+      image: mongo
+      container_name: mongodb
+      restart: always
+      ports:
+        - '27017:27017'
+      volumes:
+        - .mongodb-data:/data/db
+      networks:
+        - mediscreenHistory
+
+  DiabetesAssessment:
+    image: DiabetesAssessment
+    container_name: MediscreenDiabetesAssessment
+    build:
+      context: DiabetesAssessment
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
+    networks:
+      - web-server
+    restart: always
+  MediScreenPatients:
+    image: MediScreenPatients
+    container_name: MediScreenPatients
+    build:
+      context: MediScreenPatients
+        dockerfile: Dockerfile
+    ports:
+      - "8081:8081"
+    networks:
+      - web-server
+    restart: always
+  MediscreenHistory:
+    image: MediscreenHistory
+    container_name: MediscreenHistory
+    build:
+      context: MediscreenHistory
+      dockerfile: Dockerfile
+    ports:
+      - "8082:8082"
+    networks:
+      - web-server
+    restart: always
+
+networks:
+  web-server:
+    driver: bridge

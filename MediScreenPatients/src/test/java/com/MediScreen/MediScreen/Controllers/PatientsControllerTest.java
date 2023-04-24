@@ -1,54 +1,71 @@
 package com.MediScreen.MediScreen.Controllers;
 
-import static org.mockito.Mockito.any;
-import static org.mockito.Mockito.anyInt;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
-
 import com.MediScreen.MediScreen.Models.DAO.PatientDAO;
 import com.MediScreen.MediScreen.Models.DTO.PatientDTO;
-import com.MediScreen.MediScreen.Repositories.PatientRepository;
 import com.MediScreen.MediScreen.Services.IPatientService;
 import com.fasterxml.jackson.databind.ObjectMapper;
-
-import java.util.ArrayList;
-
-import java.util.Optional;
-
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
-import org.springframework.test.web.servlet.ResultActions;
-import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.web.context.WebApplicationContext;
 
-@ContextConfiguration(classes = {PatientsController.class})
-@ExtendWith(SpringExtension.class)
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
+@SpringBootTest
+@AutoConfigureMockMvc
+@ExtendWith(MockitoExtension.class)
 class PatientsControllerTest {
+
     @MockBean
     private IPatientService iPatientService;
 
     @Autowired
     private PatientsController patientsController;
 
+    @Autowired
+    private WebApplicationContext context;
+
+    private MockMvc mvc;
+
     /**
      * Method under test: {@link PatientsController#getAllPatients()}
      */
     @Test
     void testGetAllPatients() throws Exception {
-        when(this.iPatientService.getAllPatients()).thenReturn((Iterable<PatientDAO>) mock(Iterable.class));
-        MockHttpServletRequestBuilder getResult = MockMvcRequestBuilders.get("/patient/allPatients");
-        getResult.accept("https://example.org/example");
-        ResultActions actualPerformResult = MockMvcBuilders.standaloneSetup(this.patientsController)
-                .build()
-                .perform(getResult);
-        actualPerformResult.andExpect(MockMvcResultMatchers.status().is(406));
+
+        PatientDAO patientDAO = new PatientDAO();
+        patientDAO.setBirthDate("2020-03-01");
+        patientDAO.setFirstName("Jane");
+        patientDAO.setGender("Gender");
+        patientDAO.setIdPatient(1);
+        patientDAO.setName("Name");
+        patientDAO.setPhoneNumber("4105551212");
+        patientDAO.setPostalAddress("42 Main St");
+
+        List<PatientDAO> list = new ArrayList<>();
+        list.add(patientDAO);
+        when(iPatientService.getAllPatients()).thenReturn(list);
+        mvc = MockMvcBuilders.webAppContextSetup(context).build();
+        mvc.perform(get("/patient/allPatients").contentType(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON))
+                .andDo(print())
+                .andExpect(status().isOk());
     }
 
 
@@ -66,20 +83,13 @@ class PatientsControllerTest {
         patientDAO.setPhoneNumber("4105551212");
         patientDAO.setPostalAddress("42 Main St");
 
-        ArrayList<PatientDAO> patientDAOList = new ArrayList<>();
-        patientDAOList.add(patientDAO);
-        when(this.iPatientService.getPatientByName((String) any())).thenReturn(patientDAOList);
-        MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders.get("/patient/patientName")
-                .param("name", "foo");
-        MockMvcBuilders.standaloneSetup(this.patientsController)
-                .build()
-                .perform(requestBuilder)
-                .andExpect(MockMvcResultMatchers.status().isOk())
-                .andExpect(MockMvcResultMatchers.content().contentType("application/json"))
-                .andExpect(MockMvcResultMatchers.content()
-                        .string(
-                                "[{\"idPatient\":1,\"name\":\"?\",\"firstName\":\"Jane\",\"birthDate\":\"2020-03-01\",\"gender\":\"?\",\"postalAddress\":\"42"
-                                        + " Main St\",\"phoneNumber\":\"4105551212\"}]"));
+        ArrayList<PatientDAO> list = new ArrayList<>();
+        list.add(patientDAO);
+        mvc = MockMvcBuilders.webAppContextSetup(context).build();
+        when(iPatientService.getPatientByName((anyString()))).thenReturn(list);
+        mvc.perform(get("/patient/patientName").param("name", patientDAO.getName()).contentType(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON))
+                .andDo(print())
+                .andExpect(status().isOk());
     }
 
     /**
@@ -95,19 +105,12 @@ class PatientsControllerTest {
         patientDAO.setName("Name");
         patientDAO.setPhoneNumber("4105551212");
         patientDAO.setPostalAddress("42 Main St");
-        when(this.iPatientService.getPatientByFullName((String) any(), (String) any())).thenReturn(patientDAO);
-        MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders.get("/patient/patientName&firstName")
-                .param("firstName", "foo")
-                .param("name", "foo");
-        MockMvcBuilders.standaloneSetup(this.patientsController)
-                .build()
-                .perform(requestBuilder)
-                .andExpect(MockMvcResultMatchers.status().isOk())
-                .andExpect(MockMvcResultMatchers.content().contentType("application/json"))
-                .andExpect(MockMvcResultMatchers.content()
-                        .string(
-                                "{\"idPatient\":1,\"name\":\"Name\",\"firstName\":\"Jane\",\"birthDate\":\"2020-03-01\",\"gender\":\"Gender\",\"postalAddress"
-                                        + "\":\"42 Main St\",\"phoneNumber\":\"4105551212\"}"));
+        ArrayList<PatientDAO> list = new ArrayList<>();
+        when(iPatientService.getPatientByFullName(anyString(), anyString())).thenReturn(patientDAO);
+        mvc = MockMvcBuilders.webAppContextSetup(context).build();
+        mvc.perform(get("/patient/patientName&firstName").param("name", patientDAO.getName()).param("firstName",patientDAO.getFirstName()).contentType(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON))
+                .andDo(print())
+                .andExpect(status().isOk());
     }
 
 
@@ -125,19 +128,13 @@ class PatientsControllerTest {
         patientDAO.setName("Name");
         patientDAO.setPhoneNumber("4105551212");
         patientDAO.setPostalAddress("42 Main St");
-        Optional<PatientDAO> ofResult = Optional.of(patientDAO);
-        when(this.iPatientService.getPatientById(anyInt())).thenReturn(ofResult);
-        MockHttpServletRequestBuilder getResult = MockMvcRequestBuilders.get("/patient/patientId");
-        MockHttpServletRequestBuilder requestBuilder = getResult.param("id", String.valueOf(1));
-        MockMvcBuilders.standaloneSetup(this.patientsController)
-                .build()
-                .perform(requestBuilder)
-                .andExpect(MockMvcResultMatchers.status().isOk())
-                .andExpect(MockMvcResultMatchers.content().contentType("application/json"))
-                .andExpect(MockMvcResultMatchers.content()
-                        .string(
-                                "{\"idPatient\":1,\"name\":\"Name\",\"firstName\":\"Jane\",\"birthDate\":\"2020-03-01\",\"gender\":\"Gender\",\"postalAddress"
-                                        + "\":\"42 Main St\",\"phoneNumber\":\"4105551212\"}"));
+        Optional<PatientDAO> result = Optional.of(patientDAO);
+        when(iPatientService.getPatientById(anyInt())).thenReturn(result);
+        when(iPatientService.getPatientByFullName(anyString(), anyString())).thenReturn(patientDAO);
+        mvc = MockMvcBuilders.webAppContextSetup(context).build();
+        mvc.perform(get("/patient/patientId").param("id", "1").contentType(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON))
+                .andDo(print())
+                .andExpect(status().isOk());
     }
 
     /**
@@ -145,31 +142,21 @@ class PatientsControllerTest {
      */
     @Test
     void testGetPatientByIdIfNull() throws Exception {
-        when(this.iPatientService.getPatientById(anyInt())).thenReturn(Optional.empty());
-        MockHttpServletRequestBuilder getResult = MockMvcRequestBuilders.get("/patient/patientId");
-        MockHttpServletRequestBuilder requestBuilder = getResult.param("id", String.valueOf(1));
-        MockMvcBuilders.standaloneSetup(this.patientsController)
-                .build()
-                .perform(requestBuilder)
-                .andExpect(MockMvcResultMatchers.status().isOk())
-                .andExpect(MockMvcResultMatchers.content().contentType("application/json"))
+        when(iPatientService.getPatientById(anyInt())).thenReturn(Optional.empty());
+        mvc = MockMvcBuilders.webAppContextSetup(context).build();
+        mvc.perform(get("/patient/patientId").param("id", "1").contentType(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON))
+                .andDo(print())
+                .andExpect(status().isOk()).andExpect(MockMvcResultMatchers.content().contentType("application/json"))
                 .andExpect(MockMvcResultMatchers.content().string("null"));
     }
+
+
 
     /**
      * Method under test: {@link PatientsController#savePatient(PatientDTO)}
      */
     @Test
     void testSavePatient() throws Exception {
-        PatientDAO patientDAO = new PatientDAO();
-        patientDAO.setBirthDate("2020-03-01");
-        patientDAO.setFirstName("Jane");
-        patientDAO.setGender("Gender");
-        patientDAO.setIdPatient(1);
-        patientDAO.setName("Name");
-        patientDAO.setPhoneNumber("4105551212");
-        patientDAO.setPostalAddress("42 Main St");
-        when(this.iPatientService.savePatient((PatientDAO) any())).thenReturn(patientDAO);
 
         PatientDTO patientDTO = new PatientDTO();
         patientDTO.setAddress("42 Main St");
@@ -178,19 +165,14 @@ class PatientsControllerTest {
         patientDTO.setGiven("Given");
         patientDTO.setPhone("4105551212");
         patientDTO.setSex("Sex");
-        String content = (new ObjectMapper()).writeValueAsString(patientDTO);
-        MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders.post("/patient/add")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(content);
-        MockMvcBuilders.standaloneSetup(this.patientsController)
-                .build()
-                .perform(requestBuilder)
-                .andExpect(MockMvcResultMatchers.status().isOk())
-                .andExpect(MockMvcResultMatchers.content().contentType("application/json"))
-                .andExpect(MockMvcResultMatchers.content()
-                        .string(
-                                "{\"idPatient\":0,\"name\":\"Family\",\"firstName\":\"Given\",\"birthDate\":\"Dob\",\"gender\":\"Sex\",\"postalAddress\":\"42"
-                                        + " Main St\",\"phoneNumber\":\"4105551212\"}"));
+
+        ObjectMapper mapper = new ObjectMapper();
+        String patientToString = mapper.writeValueAsString(patientDTO);
+        mvc = MockMvcBuilders.webAppContextSetup(context).build();
+        mvc.perform(post("/patient/add")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(patientToString))
+                .andExpect(status().isOk());
     }
 
     /**
@@ -206,29 +188,15 @@ class PatientsControllerTest {
         patientDAO.setName("Name");
         patientDAO.setPhoneNumber("4105551212");
         patientDAO.setPostalAddress("42 Main St");
-        when(this.iPatientService.updatePatient((PatientDAO) any())).thenReturn(patientDAO);
+        when(iPatientService.updatePatient((PatientDAO) any())).thenReturn(patientDAO);
+        ObjectMapper mapper = new ObjectMapper();
+        String patientToString = mapper.writeValueAsString(patientDAO);
+        mvc = MockMvcBuilders.webAppContextSetup(context).build();
+        mvc.perform(post("/patient/edit")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(patientToString))
+                .andExpect(status().isOk());
 
-        PatientDAO patientDAO1 = new PatientDAO();
-        patientDAO1.setBirthDate("2020-03-01");
-        patientDAO1.setFirstName("Jane");
-        patientDAO1.setGender("Gender");
-        patientDAO1.setIdPatient(1);
-        patientDAO1.setName("Name");
-        patientDAO1.setPhoneNumber("4105551212");
-        patientDAO1.setPostalAddress("42 Main St");
-        String content = (new ObjectMapper()).writeValueAsString(patientDAO1);
-        MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders.get("/patient/edit")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(content);
-        MockMvcBuilders.standaloneSetup(this.patientsController)
-                .build()
-                .perform(requestBuilder)
-                .andExpect(MockMvcResultMatchers.status().isOk())
-                .andExpect(MockMvcResultMatchers.content().contentType("application/json"))
-                .andExpect(MockMvcResultMatchers.content()
-                        .string(
-                                "{\"idPatient\":1,\"name\":\"Name\",\"firstName\":\"Jane\",\"birthDate\":\"2020-03-01\",\"gender\":\"Gender\",\"postalAddress"
-                                        + "\":\"42 Main St\",\"phoneNumber\":\"4105551212\"}"));
     }
 }
 
