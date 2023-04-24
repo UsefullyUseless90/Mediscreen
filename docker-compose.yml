@@ -9,8 +9,6 @@ services:
     environment:
       - MYSQL_ROOT_PASSWORD=root
       - MYSQL_DATABASE=mediscreen
-    volumes:
-      - .mysql-data:/var/lib/mysql
     networks:
       - mediscreen
 
@@ -20,8 +18,6 @@ services:
       restart: always
       ports:
         - '27017:27017'
-      volumes:
-        - .mongodb-data:/data/db
       networks:
         - mediscreenHistory
 
