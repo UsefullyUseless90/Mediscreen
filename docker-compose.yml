@@ -10,7 +10,7 @@ services:
       - MYSQL_ROOT_PASSWORD=root
       - MYSQL_DATABASE=mediscreen
        volumes:
-      - .patients-db:volumes/patients-db/_data
+      - .patients-db:/volumes/patients-db/_data
     networks:
       - mediscreen
 
@@ -21,7 +21,7 @@ services:
       ports:
         - '27017:27017'
          volumes:
-      - .history-db:volumes/history-db/_data
+      - .history-db:/volumes/history-db/_data
       networks:
         - mediscreenHistory
 
