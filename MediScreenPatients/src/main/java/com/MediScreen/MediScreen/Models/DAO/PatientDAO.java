@@ -12,14 +12,12 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
 
-@JacocoExclusion
-@Data
+
 @Table(name = "patients_informations")
 @Entity
 @Getter
 @Setter
 @NoArgsConstructor
-@AllArgsConstructor
 
 public class PatientDAO {
     @Id

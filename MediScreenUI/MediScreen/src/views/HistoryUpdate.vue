@@ -46,9 +46,9 @@ export default {
   },
   methods: {
   update() {
-      historyDataService.update(this.history).then((response) => {console.log(response.status);
+      historyDataService.update(this.$data.history).then((response) => {console.log(response.status);
       })
-      patientDataService.getPatientId(this.$data.history.patientId).then((response) => {this.$data.patientDAO = {...response.data};
+      patientDataService.getPatientId(this.$route.params.id).then((response) => {this.$data.patientDAO = {...response.data};
       })
       this.$router.push({name:'history', params: {id: this.$data.history.patientId}})
       },
