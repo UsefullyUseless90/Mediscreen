@@ -32,4 +32,10 @@ https://visualstudio.microsoft.com/fr/
 
 Ouvrir le projet Mediscreen via Visual Studio.
 
-Installer npm Lancer la commande npm install dans le terminal après l’avoir dirigé dans la partie frontend. Pour lancer le front la commande suivante est nécessaire : npm run dev une URL s’affiche vous pourez alors utiliser l’interface prototype du front.
+Installer npm<br> 
+Lancer la commande npm install dans le terminal après l’avoir dirigé dans la partie frontend.<br> 
+Pour lancer le front la commande suivante est nécessaire :<br> 
+
+- npm run dev 
+
+Une URL s’affiche vous pourez alors utiliser l’interface prototype du front.
